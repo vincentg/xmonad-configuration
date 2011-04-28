@@ -1,13 +1,7 @@
---
--- xmonad example config file.
---
--- A template showing all available configuration hooks,
--- and how to override the defaults in your own xmonad.hs conf file.
---
--- Normally, you'd only override those defaults you care about.
---
+{-# LANGUAGE ParallelListComp #-}
 
 import XMonad
+import XMonad.Actions.CycleWS
 import Data.Monoid
 import System.Exit
 
@@ -134,14 +128,22 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         | (i, k) <- zip (XMonad.workspaces conf) [xK_F1 .. xK_F9]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
-    
+
+   --- Mod + F11 switch to the previous, F12 the next
+   --- Mod + Shift + F11/F12 move the application
+   [((mod .|. modm, key), f)
+        | mod <- [0, shiftMask], key <-  [xK_F11, xK_F12]
+        | f <- [prevWS, nextWS, shiftToPrev, shiftToNext]
+   ]
+
+    -- USELESS for now, no multiple screen
     --
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-    
-    [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_z, xK_e, xK_r] [0..]
-        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+    --
+    --[((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+    --    | (key, sc) <- zip [xK_z, xK_e, xK_r] [0..]
+    --    , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
 ------------------------------------------------------------------------
