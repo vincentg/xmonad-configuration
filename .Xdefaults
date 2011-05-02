@@ -1,0 +1,7 @@
+urxvt*loginShell:true
+urxvt*transparent:false
+urxvt*background:Black
+urxvt*foreground:White
+urxvt*scrollBar:false
+urxvt*saveLines:32767
+urxvt*termName:xterm-color
