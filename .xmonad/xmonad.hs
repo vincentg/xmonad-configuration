@@ -40,7 +40,7 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["web","mail","irc"] ++ map show [4..6]
+myWorkspaces    = ["term","web","mail"] ++ map show [4..7]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -132,10 +132,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
 
-   --- Mod + F11 switch to the previous, F12 the next
-   --- Mod + Shift + F11/F12 move the application
+   --- Mod + Left switch to the previous, Right the next
+   --- Mod + Shift + Left/Right move the application
    [((mod .|. modm, key), f)
-        | mod <- [0, shiftMask], key <-  [xK_F11, xK_F12]
+        | mod <- [0, shiftMask], key <-  [xK_Left, xK_Right]
         | f <- [prevWS, nextWS, shiftToPrev, shiftToNext]
    ]
 
