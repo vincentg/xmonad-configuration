@@ -2,6 +2,7 @@
 
 import XMonad
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run
 import XMonad.Actions.CycleWS
@@ -116,10 +117,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Restart xmonad
     , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
-
-    -- Lock the screen
-    , ((modm              , xK_l     ), spawn "xscreensaver-command -lock")
-
+    
+    -- Urgency management (goto the most recent urgent windows, or clear urgency)
+    , ((modm              , xK_u     ), focusUrgent)
+    , ((modm .|. shiftMask, xK_u     ), clearUrgents)
     ]
     ++
 
@@ -242,7 +243,8 @@ myStartupHook = return ()
 --
 main = do 
     xmproc <- spawnPipe "/usr/bin/xmobar /home/vincent/.xmobarrc"
-    xmonad $ defaultConfig {
+    xmonad $ withUrgencyHook NoUrgencyHook 
+           $ defaultConfig {
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
         borderWidth        = myBorderWidth,

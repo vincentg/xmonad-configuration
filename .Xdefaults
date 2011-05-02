@@ -4,4 +4,5 @@ urxvt*background:Black
 urxvt*foreground:White
 urxvt*scrollBar:false
 urxvt*saveLines:32767
+urxvt*urgentOnBell:true
 urxvt*termName:xterm-color
